@@ -4,8 +4,13 @@ from connection_returns import *
 import tkinter as tk
 import json
 import platform
-
-
+from net import *
+from tkinter import filedialog
+from tkinter import *
+import public_ip as ip
+from os import listdir
+from os.path import isfile, join
+	
 
 # -------------------- Start -------------------------------------
 
@@ -38,45 +43,75 @@ def error_window_windows():
 
 
 # -------------------- LINUX SETTINGS ------------------------------
+# Soure Function to install all important libarys/programs
+def install_sources():
 
-def linux_set():
-	# Function to change the *.conf file
-	def select_btn():
+	def btn_pw():
+		command = f'echo "{tInput.get()}" | sudo -S apt install wireguard'
+		os.system(command)
+		command2 = f'pip install public-ip'
+		os.system(command2)
 		root.destroy()
-		json_c()
-	
-	# Soure Function to install all important libarys/programs
-	def install_sources():
+		normal_done_window()
 
-		def btn_pw():
-			command = f'echo "{tInput.get()}" | sudo -S apt install wireguard'
-			os.system(command)
-			root.destroy()
-			normal_done_window()
-
-
-		root = customtkinter.CTk()
-
-		# This is the section of code which creates the main window
-		root.geometry('175x88')
-		root.title('Auth')
-
-
-		# This is the section of code which creates a text input box
-		tInput=customtkinter.CTkEntry(root)
-		tInput.place(x=20, y=10)
-
-
-		# This is the section of code which creates a button
-		customtkinter.CTkButton(root, text='Ok', command=btn_pw).place(x=20, y=45)
-
-
-		root.mainloop()
 
 	root = customtkinter.CTk()
 
 	# This is the section of code which creates the main window
-	root.geometry('172x180')
+	root.geometry('175x88')
+	root.title('Auth')
+
+
+	# This is the section of code which creates a text input box
+	tInput=customtkinter.CTkEntry(root)
+	tInput.place(x=20, y=10)
+
+
+	# This is the section of code which creates a button
+	customtkinter.CTkButton(root, text='Ok', command=btn_pw).place(x=20, y=45)
+
+
+	root.mainloop()
+
+def conf_to_dir():
+	conf_file = filedialog.askopenfilename()
+
+	def btn_pw():
+			
+		destination = '/etc/wireguard'
+		command = f'echo "{tInput.get()}" | sudo -S cp {conf_file} {destination}'
+		os.system(command)
+		root.destroy()
+		normal_done_window()
+
+
+	root = customtkinter.CTk()
+
+	# This is the section of code which creates the main window
+	root.geometry('175x88')
+	root.title('Auth')
+
+
+	# This is the section of code which creates a text input box
+	tInput=customtkinter.CTkEntry(root)
+	tInput.place(x=20, y=10)
+
+
+	# This is the section of code which creates a button
+	customtkinter.CTkButton(root, text='Ok', command=btn_pw).place(x=20, y=45)
+
+	root.mainloop()
+
+# Function to change the name of the interface
+def select_btn():
+	json_c()
+
+def linux_set():
+
+	root = customtkinter.CTk()
+
+	# This is the section of code which creates the main window
+	root.geometry('172x240')
 	root.title('Settings') # Linux settings
 
 
@@ -94,46 +129,59 @@ def linux_set():
 
 	customtkinter.CTkButton(root, text='Install', command=install_sources).place(x=16, y=118)
 
+	customtkinter.CTkLabel(root, text='-----------------------------------').place(x=16, y=148)
+
+	customtkinter.CTkLabel(root, text='Add *.conf to list:').place(x=16, y=168)
+
+	customtkinter.CTkButton(root, text='Select', command=conf_to_dir).place(x=16, y=198)
+
 
 	root.mainloop()
 
 
 
+# ---------------------------------------- other stuff ---------------------------------------
+def show_stats():
+	root.destroy()
+
+	internet()
 
 
 # ----------------------------------------- Other Configs --------------------------------------
 
-# -- Change Config file --
-def json_c():
-	def json_part(quest):
-		dictionary = {"path": quest}
+def json_part(quest):
+	dictionary = {"path": quest}
 
-		# JSON File for Languages
-		f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
-		with open("/opt/zlelo/wireguard-guy/config.json", "w") as outfile: json.dump(dictionary, outfile)
-		f.close()
-		# End of JSON
+	# JSON File for Languages
+	f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
+	with open("/opt/zlelo/wireguard-guy/config.json", "w") as outfile: json.dump(dictionary, outfile)
+	f.close()
+	# End of JSON
 
-	def doneWindow4_json():
-		# Show window
-		root = customtkinter.CTk()
+def doneWindow4_json():
+	# Show window
+	root = customtkinter.CTk()
 
-		# This is the section of code which creates the main window
-		root.geometry('218x80')
-		root.title('Changed')
+	# This is the section of code which creates the main window
+	root.geometry('218x80')
+	root.title('Changed')
 
 
-		# This is the section of code which creates the a label
-		customtkinter.CTkLabel(root, text='Change the Interface successfully').place(x=13, y=10)
+	# This is the section of code which creates the a label
+	customtkinter.CTkLabel(root, text='Change the Interface successfully').place(x=13, y=10)
 
-		root.mainloop()
+	root.mainloop()
+
+def window_(files):
 
 	def btnOkIn():
-		quest = nameconf.get()
+		get_item = box.get()
+		quest = get_item[:-5]
+		print(quest)
 		json_part(quest)
 		root.destroy()
 		doneWindow4_json()
-
+		
 	root = customtkinter.CTk()
 
 	# This is the section of code which creates the main window
@@ -142,16 +190,22 @@ def json_c():
 	root.title('Interface')
 
 
-	# This is the section of code which creates a text input box
-	nameconf=customtkinter.CTkEntry(root)
-	nameconf.place(x=32, y=19)
-
+	box = customtkinter.CTkComboBox(root, values=files)
+	box.place(x=32, y=19)
 
 	# This is the section of code which creates a button
 	customtkinter.CTkButton(root, text='Ok', command=btnOkIn).place(x=32, y=52)
 
 
 	root.mainloop()
+
+
+# -- Change Config file --
+def json_c():
+	
+	path = '/etc/wireguard/'
+	files = [f for f in listdir(path) if isfile(join(path, f))]
+	window_(files)
 
 
 
@@ -192,27 +246,27 @@ def connect_btn():
 			# Start connecting
 			command = f'echo "{tInput.get()}" | sudo -S wg-quick up {name_of_conf}'
 			os.system(command)
-			root.destroy()
+			win.destroy()
 			con_done()
 
 
-		root = customtkinter.CTk()
+		win = customtkinter.CTk()
 
 		# This is the section of code which creates the main window
-		root.geometry('175x88')
-		root.title('Auth')
+		win.geometry('175x88')
+		win.title('Auth')
 
 
 		# This is the section of code which creates a text input box
-		tInput=customtkinter.CTkEntry(root)
+		tInput=customtkinter.CTkEntry(win)
 		tInput.place(x=20, y=10)
 
 
 		# This is the section of code which creates a button
-		customtkinter.CTkButton(root, text='Ok', command=btn_pw).place(x=20, y=45)
+		customtkinter.CTkButton(win, text='Ok', command=btn_pw).place(x=20, y=45)
 
 
-		root.mainloop()
+		win.mainloop()
 
 	# If Program detect Windows as OS
 	elif system == 'Windows':
@@ -267,8 +321,6 @@ def disconnect_btn():
 		
 
 
-
-
 # ----------------------------------------------------MAIN---------------------------------------------------
 
 # -- Main Window --
@@ -276,7 +328,7 @@ def disconnect_btn():
 root = customtkinter.CTk()
 
 # This is the section of code which creates the main window
-root.geometry('410x120')
+root.geometry('407x135')
 root.title('Wireguard-Guy')
 
 
@@ -292,9 +344,22 @@ customtkinter.CTkButton(root, text='Connect', command=connect_btn).place(x=20, y
 customtkinter.CTkButton(root, text='Disconnect', command=disconnect_btn).place(x=245, y=60)
 
 # This is the section of code which creates a image button
+download_button = customtkinter.CTkButton(root, text='Settings', width=20, command=settings).place(x=173, y=60)
 
+customtkinter.CTkLabel(root, text=f'Your ip is: {ip.get()}').place(x=20, y=100)
 
-download_button = customtkinter.CTkButton(root, text='Settings', width=20, command=settings).place(x=174, y=60)
+menu = Menu(root)
+root.config(menu=menu)
+filemenu = Menu(menu)
+menu.add_cascade(label="Settings", menu=filemenu)
+filemenu.add_command(label="Change interface", command=select_btn)
+filemenu.add_command(label="Install sources", command=install_sources)
+filemenu.add_command(label="Add *.conf to list", command=conf_to_dir)
+
+helpmenu = Menu(menu)
+menu.add_cascade(label="Options", menu=helpmenu)
+helpmenu.add_command(label="Traffic stats", command=show_stats)
+
 
 
 root.mainloop()
