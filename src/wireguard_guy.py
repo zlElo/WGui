@@ -48,63 +48,26 @@ def error_window_windows():
 # Soure Function to install all important libarys/programs
 def install_sources():
 
-	def btn_pw():
-		command = f'echo "{tInput.get()}" | sudo -S apt install wireguard'
-		os.system(command) # run the command to install wireguard
-		command2 = f'pip install public-ip' # command to install the libary to show the public ip of the user
-		os.system(command2)
-		root.destroy()
-		normal_done_window()
-
-	# Create the authentication window
-	root = customtkinter.CTk()
-
-	# This is the section of code which creates the main window
-	root.geometry('175x88')
-	root.title('Auth')
-
-
-	# This is the section of code which creates a text input box
-	tInput=customtkinter.CTkEntry(root)
-	tInput.place(x=20, y=10)
-
-
-	# This is the section of code which creates a button
-	customtkinter.CTkButton(root, text='Ok', command=btn_pw).place(x=20, y=45)
-
-
-	root.mainloop()
+	
+	command = f'sudo apt install wireguard'
+	os.system(command) # run the command to install wireguard
+	command2 = f'pip install public-ip' # command to install the libary to show the public ip of the user
+	os.system(command2)
+	root.destroy()
+	normal_done_window()
 
 # function to copy the config file to the wireguard directory
 def conf_to_dir():
 	conf_file = filedialog.askopenfilename()
 
-	def btn_pw():
+	
 			
-		destination = '/etc/wireguard' # set the standart directory
-		command = f'echo "{tInput.get()}" | sudo -S cp {conf_file} {destination}' # standart linux command to copy files
-		os.system(command) # run the command with the os libary
-		root.destroy()
-		normal_done_window() # show the standart done window
+	destination = '/etc/wireguard' # set the standart directory
+	command = f'sudo cp {conf_file} {destination}' # standart linux command to copy files
+	os.system(command) # run the command with the os libary
+	root.destroy()
+	normal_done_window() # show the standart done window
 
-
-	# Create the authentication window
-	root = customtkinter.CTk()
-
-	# This is the section of code which creates the main window
-	root.geometry('175x88')
-	root.title('Auth')
-
-
-	# This is the section of code which creates a text input box
-	tInput=customtkinter.CTkEntry(root)
-	tInput.place(x=20, y=10)
-
-
-	# This is the section of code which creates a button
-	customtkinter.CTkButton(root, text='Ok', command=btn_pw).place(x=20, y=45)
-
-	root.mainloop()
 
 # function to call the json_c function
 def select_btn():
@@ -196,62 +159,43 @@ def connect_btn():
 	
 	# If Program detect Linux as OS
 	if system == 'Linux':
-		def btn_pw():
-			# --- connection ---
-			# json load conf
-			f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
-			data = json.load(f) # Load all of the JSON file
+		
+		# --- connection ---
+		# json load conf
+		f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
+		data = json.load(f) # Load all of the JSON file
 
-			name_of_conf = data['path']
+		name_of_conf = data['path']
 
-			f.close()
+		f.close()
 
-			# Start connecting
-			command = f'echo "{tInput.get()}" | sudo -S wg-quick up {name_of_conf}'
-			os.system(command)
-			win.destroy()
+		# Start connecting
+		command = f'sudo wg-quick up {name_of_conf}'
+		os.system(command)
 			
 
-			# --- LED ---
-			dictionary = {"light": True} # Set True to activate the green LED
+		# --- LED ---
+		dictionary = {"light": True} # Set True to activate the green LED
 
-			# JSON File for the status light
-			f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
-			with open("/opt/zlelo/wireguard-guy/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
-			f.close()
-
-
-			f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
-			data = json.load(f) # Load all of the JSON file
-
-			condition = data['light']
-
-			f.close()
-
-			change_light(condition)
+		# JSON File for the status light
+		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
+		with open("/opt/zlelo/wireguard-guy/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
+		f.close()
 
 
-			# Show connect done Window
-			con_done()
+		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
+		data = json.load(f) # Load all of the JSON file
+
+		condition = data['light']
+
+		f.close()
+
+		change_light(condition)
 
 
-		win = customtkinter.CTk()
+		# Show connect done Window
+		con_done()
 
-		# This is the section of code which creates the main window
-		win.geometry('175x88')
-		win.title('Auth')
-
-
-		# This is the section of code which creates a text input box
-		tInput=customtkinter.CTkEntry(win)
-		tInput.place(x=20, y=10)
-
-
-		# This is the section of code which creates a button
-		customtkinter.CTkButton(win, text='Ok', command=btn_pw).place(x=20, y=45)
-
-
-		win.mainloop()
 
 	# If Program detect Windows as OS
 	elif system == 'Windows':
@@ -267,61 +211,42 @@ def disconnect_btn():
 
 	# If Program detect Linux as OS
 	if system == 'Linux':
-		def btn_pw():
-			# json load conf
-			f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
-			data = json.load(f) # Load all of the JSON file
+		
+		# json load conf
+		f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
+		data = json.load(f) # Load all of the JSON file
 
-			name_of_conf = data['path']
+		name_of_conf = data['path']
 
-			f.close()
+		f.close()
 
-			# Start connecting
-			command = f'echo "{tInput.get()}" | sudo -S wg-quick down {name_of_conf}'
-			os.system(command)
-			root.destroy()
-
-
-			# --- LED ---
-			dictionary = {"light": False} # set False
-
-			# JSON file for the light controle
-			f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
-			with open("/opt/zlelo/wireguard-guy/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
-			f.close()
+		# Start connecting
+		command = f'sudo wg-quick down {name_of_conf}'
+		os.system(command)
 
 
-			f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
-			data = json.load(f) # Load all of the JSON file
+		# --- LED ---
+		dictionary = {"light": False} # set False
 
-			condition = data['light'] # set the condition
-
-			f.close()
-
-			change_light(condition)
-
-
-			# Show disconnect window
-			dis_done()
+		# JSON file for the light controle
+		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
+		with open("/opt/zlelo/wireguard-guy/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
+		f.close()
 
 
-		root = customtkinter.CTk()
+		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
+		data = json.load(f) # Load all of the JSON file
 
-		# This is the section of code which creates the main window
-		root.geometry('175x88')
-		root.title('Auth')
+		condition = data['light'] # set the condition
 
+		f.close()
 
-		# This is the section of code which creates a text input box
-		tInput=customtkinter.CTkEntry(root)
-		tInput.place(x=20, y=10)
+		change_light(condition)
 
 
-		# This is the section of code which creates a button
-		customtkinter.CTkButton(root, text='Ok', command=btn_pw).place(x=20, y=45)
+		# Show disconnect window
+		dis_done()
 
-
-		root.mainloop()
 
 	# If Program detect Windows as OS
 	elif system == 'Windows':
