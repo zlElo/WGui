@@ -10,6 +10,7 @@ from tkinter import *
 import public_ip as ip
 from os import listdir
 from os.path import isfile, join
+import webbrowser
 	
 
 # -------------------- Start -------------------------------------
@@ -72,6 +73,24 @@ def conf_to_dir():
 # function to call the json_c function
 def select_btn():
 	json_c()
+
+
+
+def about():
+
+	def developer():
+		webbrowser.open("zlelo.github.io")
+
+	root = customtkinter.CTk()
+	root.geometry('400x65')
+	root.title('About')
+
+	customtkinter.CTkLabel(root, text=f'Wireguard-Guy is a OpenSource and free wg-quick GUI client', anchor="center").pack()
+	customtkinter.CTkButton(root, text='Developer', command=developer, anchor="center").pack()
+
+	root.mainloop()
+
+    
 
 
 # ---------------------------------------- other stuff ---------------------------------------
@@ -253,7 +272,9 @@ def disconnect_btn():
 		error_window_windows()
 		
 
-	
+
+# ----------------------- Import things for the start of the program -------------------------------
+
 # Function to change the light color
 def change_light(condition):
 
@@ -282,13 +303,19 @@ def status_now_for_led():
 
 # ----------------------------------------------------MAIN---------------------------------------------------
 
+
 # -- Main Window --
 
 root = customtkinter.CTk()
 
+
 # This is the section of code which creates the main window
 root.geometry('407x115')
 root.title('Wireguard-Guy')
+
+
+
+    
 
 def check_selected_server():
 
@@ -336,7 +363,29 @@ filemenu.add_command(label="Add *.conf to list", command=conf_to_dir)
 helpmenu = Menu(menu)
 menu.add_cascade(label="Options", menu=helpmenu)
 helpmenu.add_command(label="Traffic stats", command=show_stats)
+helpmenu.add_command(label="About", command=about)
 
+# Check script is running as root
+if os.geteuid() == 0: 
+    pass
+else: 
+	print(
+		"""
+                                  
+88        88                          88  
+88        88                          88  
+88        88                          88  
+88        88  8b,dPPYba,   ,adPPYba,  88  
+88        88  88P'    "8a  I8[    ""  88  
+88        88  88       d8   `"Y8ba,   ""  
+Y8a.    .a8P  88b,   ,a8"  aa    ]8I  aa  
+ `"Y8888Y"'   88`YbbdP"'   `"YbbdP"'  88  
+              88                          
+              88                          
 
+The script has no root privileges! Pleas run the script as root
+		"""
+	)
+	root.destroy()
 
 root.mainloop()

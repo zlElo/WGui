@@ -12,7 +12,7 @@ cp -r ./dist/* /opt/zlelo/wireguard-guy/
 
 echo "[✓] Copyed successfully the important files to opt"
 
-ln -s /opt/zlelo/wireguard-guy/wireguard-guy_v1.1 /usr/local/bin/wireguard-guy
+ln -s /opt/zlelo/wireguard-guy/wireguard-guy_v1.11 /usr/local/bin/wireguard-guy
 
 echo ""
 echo "[✓] Installation successfully!"
