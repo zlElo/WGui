@@ -11,6 +11,8 @@ import public_ip as ip
 from os import listdir
 from os.path import isfile, join
 import webbrowser
+from ping_tester import *
+from download_speed_test import *
 	
 
 # -------------------- Start -------------------------------------
@@ -79,7 +81,7 @@ def select_btn():
 def about():
 
 	def developer():
-		webbrowser.open("zlelo.github.io")
+		webbrowser.open_new_tab("zlelo.github.io")
 
 	root = customtkinter.CTk()
 	root.geometry('400x65')
@@ -363,6 +365,9 @@ filemenu.add_command(label="Add *.conf to list", command=conf_to_dir)
 helpmenu = Menu(menu)
 menu.add_cascade(label="Options", menu=helpmenu)
 helpmenu.add_command(label="Traffic stats", command=show_stats)
+helpmenu.add_command(label="Pingtester", command=pinger)
+helpmenu.add_command(label="Download-tester", command=download_speed_test_function)
+
 helpmenu.add_command(label="About", command=about)
 
 # Check script is running as root
