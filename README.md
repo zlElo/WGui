@@ -1,6 +1,6 @@
 # Wireguard-Guy
 
-Is a OpenSource, secure and fast Wireguard Client for Linux
+Is a OpenSource, secure and fast wg-quick client for Linux
 
 ---------------------------------------------------
 
