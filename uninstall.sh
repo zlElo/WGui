@@ -4,8 +4,8 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-rm -rf /opt/zlelo/wireguard-guy/
+rm -rf /opt/zlelo/wgui/
 
-rm -f /usr/local/bin/wireguard-guy
+rm -f /usr/local/bin/wgui
 
 echo "[✓] Deinstallation successfully!"

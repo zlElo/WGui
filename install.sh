@@ -4,17 +4,17 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-mkdir -p /opt/zlelo/wireguard-guy/
+mkdir -p /opt/zlelo/wgui/
 
 echo "[✓] Mkdir successfull"
 
-cp -r ./dist/* /opt/zlelo/wireguard-guy/
+cp -r ./dist/* /opt/zlelo/wgui/
 
 echo "[✓] Copyed successfully the important files to opt"
 
-ln -s /opt/zlelo/wireguard-guy/wireguard-guy_v1.13-1 /usr/local/bin/wireguard-guy
+ln -s /opt/zlelo/wgui/wgui_v1.13-2 /usr/local/bin/wgui
 
 echo ""
 echo "[✓] Installation successfully!"
-echo "You can run the program with the command: wireguard-guy"
+echo "You can run the program with the command: wgui"
 echo "For more help visit the Wiki"

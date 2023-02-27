@@ -38,7 +38,7 @@ def download_speed_test_function():
         time_ = time.perf_counter() - start
         downspeed_ = 100 / time_
 
-        customtkinter.CTkLabel(win, text='Test is done!').pack(pady=15)
+        customtkinter.CTkLabel(win, text='Test is done!').pack(pady=5)
 
         customtkinter.CTkLabel(win, text=f'Downloaded data: 100 MB').pack()
         customtkinter.CTkLabel(win, text=f'Deleted testfile: True').pack()
@@ -59,3 +59,5 @@ def download_speed_test_function():
 
 
     win.mainloop()
+
+download_speed_test_function()

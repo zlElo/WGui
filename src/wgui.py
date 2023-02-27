@@ -11,7 +11,6 @@ import public_ip as ip
 from os import listdir
 from os.path import isfile, join
 import webbrowser
-from ping_tester import *
 from download_speed_test import *
 	
 
@@ -87,7 +86,7 @@ def about():
 	root.geometry('400x65')
 	root.title('About')
 
-	customtkinter.CTkLabel(root, text=f'Wireguard-Guy is a OpenSource and free wg-quick GUI client', anchor="center").pack()
+	customtkinter.CTkLabel(root, text=f'wgui is a OpenSource and free wg-quick GUI client', anchor="center").pack()
 	customtkinter.CTkButton(root, text='Developer', command=developer, anchor="center").pack()
 
 	root.mainloop()
@@ -109,8 +108,8 @@ def json_part(quest):
 	dictionary = {"path": quest} # get the var quest from window_ (exactly from the combobox)
 
 	# JSON File for Languages
-	f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
-	with open("/opt/zlelo/wireguard-guy/config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
+	f = open('/opt/zlelo/wgui/config.json') #Open the JSON file
+	with open("/opt/zlelo/wgui/config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
 	f.close()
 	# End of JSON
 
@@ -183,7 +182,7 @@ def connect_btn():
 		
 		# --- connection ---
 		# json load conf
-		f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
+		f = open('/opt/zlelo/wgui/config.json') #Open the JSON file
 		data = json.load(f) # Load all of the JSON file
 
 		name_of_conf = data['path']
@@ -199,12 +198,12 @@ def connect_btn():
 		dictionary = {"light": True} # Set True to activate the green LED
 
 		# JSON File for the status light
-		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
-		with open("/opt/zlelo/wireguard-guy/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
+		f = open('/opt/zlelo/wgui/light_config.json') #Open the JSON file
+		with open("/opt/zlelo/wgui/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
 		f.close()
 
 
-		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
+		f = open('/opt/zlelo/wgui/light_config.json') #Open the JSON file
 		data = json.load(f) # Load all of the JSON file
 
 		condition = data['light']
@@ -234,7 +233,7 @@ def disconnect_btn():
 	if system == 'Linux':
 		
 		# json load conf
-		f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
+		f = open('/opt/zlelo/wgui/config.json') #Open the JSON file
 		data = json.load(f) # Load all of the JSON file
 
 		name_of_conf = data['path']
@@ -250,12 +249,12 @@ def disconnect_btn():
 		dictionary = {"light": False} # set False
 
 		# JSON file for the light controle
-		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
-		with open("/opt/zlelo/wireguard-guy/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
+		f = open('/opt/zlelo/wgui/light_config.json') #Open the JSON file
+		with open("/opt/zlelo/wgui/light_config.json", "w") as outfile: json.dump(dictionary, outfile) # write in the JSON
 		f.close()
 
 
-		f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
+		f = open('/opt/zlelo/wgui/light_config.json') #Open the JSON file
 		data = json.load(f) # Load all of the JSON file
 
 		condition = data['light'] # set the condition
@@ -289,7 +288,7 @@ def change_light(condition):
 # Function for status led to check the connection and set the right color
 def status_now_for_led():
 
-	f = open('/opt/zlelo/wireguard-guy/light_config.json') #Open the JSON file
+	f = open('/opt/zlelo/wgui/light_config.json') #Open the JSON file
 	data = json.load(f) # Load all of the JSON file
 
 	condition = data['light']
@@ -313,7 +312,7 @@ root = customtkinter.CTk()
 
 # This is the section of code which creates the main window
 root.geometry('407x115')
-root.title('Wireguard-Guy')
+root.title('wgui')
 
 
 
@@ -321,7 +320,7 @@ root.title('Wireguard-Guy')
 
 def check_selected_server():
 
-	f = open('/opt/zlelo/wireguard-guy/config.json') #Open the JSON file
+	f = open('/opt/zlelo/wgui/config.json') #Open the JSON file
 	data = json.load(f) # Load all of the JSON file
 
 	data_set = data['path']
@@ -365,7 +364,6 @@ filemenu.add_command(label="Add *.conf to list", command=conf_to_dir)
 helpmenu = Menu(menu)
 menu.add_cascade(label="Options", menu=helpmenu)
 helpmenu.add_command(label="Traffic stats", command=show_stats)
-helpmenu.add_command(label="Pingtester", command=pinger)
 helpmenu.add_command(label="Download-tester", command=download_speed_test_function)
 
 helpmenu.add_command(label="About", command=about)
@@ -374,23 +372,7 @@ helpmenu.add_command(label="About", command=about)
 if os.geteuid() == 0: 
     pass
 else: 
-	print(
-		"""
-                                  
-88        88                          88  
-88        88                          88  
-88        88                          88  
-88        88  8b,dPPYba,   ,adPPYba,  88  
-88        88  88P'    "8a  I8[    ""  88  
-88        88  88       d8   `"Y8ba,   ""  
-Y8a.    .a8P  88b,   ,a8"  aa    ]8I  aa  
- `"Y8888Y"'   88`YbbdP"'   `"YbbdP"'  88  
-              88                          
-              88                          
-
-The script has no root privileges! Pleas run the script as root
-		"""
-	)
+	print('The script has no root privileges! Pleas run the script as root')
 	root.destroy()
 
 root.mainloop()
