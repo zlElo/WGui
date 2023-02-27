@@ -1,4 +1,4 @@
-# Wireguard-Guy
+# WGui
 
 Is a OpenSource, secure and fast wg-quick client for Linux
 
@@ -7,22 +7,22 @@ Is a OpenSource, secure and fast wg-quick client for Linux
 ## Quick start
 1. clone this repository
 ```
-git clone https://github.com/zlElo/Wireguard-Guy.git
+git clone https://github.com/zlElo/WGui.git
 ```
 
 2. Go to folder
 ```
-cd Wireguard-Guy
+cd WGui
 ```
 
-3. install wireguard-guy
+3. install wgui
 ```
 sudo ./install.sh
 ```
 
 4. run
 ```
-sudo wireguard-guy
+sudo wgui
 ```
 
 ## How to
