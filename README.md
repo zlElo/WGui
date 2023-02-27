@@ -1,5 +1,6 @@
 # WGui
 
+![wgui-logo](https://github.com/zlElo/WGui/blob/main/logo.png?raw=true)
 
 Is a OpenSource, secure and fast wg-quick client for Linux
 
