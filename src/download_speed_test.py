@@ -59,5 +59,3 @@ def download_speed_test_function():
 
 
     win.mainloop()
-
-download_speed_test_function()
